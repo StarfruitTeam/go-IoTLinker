@@ -24,6 +24,12 @@
   5. 플랫폼은 최소 기능만 제공한다. (수집(Mqtt),장치 관리,처리(Context Engin),실시간 제공(Websocket),데이터 분석(분석),대쉬보드)
   6. 쉽게  머신 러닝 플랫폼과의 연계한다.(데이터 분석이 용이)
 
+
+* Struct
+#+CAPTION: 
+#+NAME:   fig:IoT-LINKER-01
+[[./IoTLinker.png]]
+
 * 데이터 타입
 
 | DATA TYPE |
