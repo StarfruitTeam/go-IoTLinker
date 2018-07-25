@@ -24,8 +24,11 @@
   5. 플랫폼은 최소 기능만 제공한다. (수집(Mqtt),장치 관리,처리(Context Engin),실시간 제공(Websocket),데이터 분석(분석),대쉬보드)
   6. 쉽게  머신 러닝 플랫폼과의 연계한다.(데이터 분석이 용이)
 
+* Go 로 프로그램을 변경하면서 고려할만한 부분
+  1. 각 프로그램을 분리하여 시스템의 종석성을 줄인다. 
+     메시지 큐나 이벤트 버스를 사용한다면 각 각 프로그램 중앙에 메시지 큐를 이용해서 데이터 공유 및 상호 작용 가능 
 
-* Struct
+* Architecture
 #+CAPTION: 
 #+NAME:   fig:IoT-LINKER-01
 [[./IoTLinker.png]]
@@ -43,8 +46,8 @@
 | GEO POINT |
 |-----------|
 
-* 디바이스 구조
-** Device:UU
+* 디바이스 데이터구조
+** Device:UUID
 *** Tag:
 | Object   | ID_TYPE     |
 |----------+-------------|
@@ -86,11 +89,12 @@
 ** 센서 데이터 분석 
     - 핫 데이터 (많은 양에 데이터를 빠르게 인사이트 분석)
     - 콜드 데이터 (데이터를 누적해서 데이터 분석)
-    - 스트렘 데이터 분석 (실시간 통계 분석, 이동평균)
+    - 스트림 데이터 분석 (실시간 통계 분석, 이동평균)
 
 
 ** Context Rule Linker Context Engin
-*** DONE 기본 룰 
+*** 실시간 룰 처리 엔진 
+
 *** 스케줄링 룰 기능
     - 일정 시간마다 룰 검사후 해당 이벤트 발생
 *** DONE Tag 별 룰 지정
@@ -279,22 +283,13 @@
 
 * 설치하기 (Raspbarrypie,Ubuntu)
 
-** Flask Install -> Go 언어로 교체 예정
-   - http://flask.pocoo.org/docs/1.0/
 
 *** Service Application Start
-    - flask run
+    - IoTLinker run
 
 ** Redis Install
    - http://redis-py.readthedocs.io/en/latest/
 
-
-** Celery Install
-   - http://docs.celeryproject.org/en/latest/userguide/index.html
-** Celery Worker Start
-   - celery -A IoTLinker.celery worker --loglevel=info
-   - celery -A IoTLinker.celery worker -B --loglevel=info (beat option)
-   - flower -B --broker=redis://localhost:6379/0
 
 ** mosquitto Install
 *** mosquitto start
