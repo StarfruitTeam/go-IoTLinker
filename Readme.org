@@ -49,6 +49,7 @@
 
 * 디바이스 데이터구조
 ** Device:UUID
+
 *** Tag:
 | Object   | ID_TYPE     |
 |----------+-------------|
@@ -56,6 +57,16 @@
 | Devcie   | UUID        |
 | TAG      | TAG_NAME    |
 |----------+-------------|
+
+*** Device
+
+*** Tag
+
+*** Location
+
+    TAG Document
+    DEVICE Document
+    LOCATION Document
 
 
 * 기능 
