@@ -1,0 +1,34 @@
+#+TITLE:Readme.org
+#+STARTUP:showall
+
+
+
+| Colum Name  | Data Type | Description      |
+|-------------+-----------+------------------|
+| Device_UUID | string    | Device UUID      |
+| Tag         | srring    | Tag Name         |
+| Value       | string    | Message Data     |
+| Data Type   | enum      | Data Type        |
+| Created     | datetime  | Created Datetime |
+|-------------+-----------+------------------|
+
+
+* Message Gateway 기능
+  - 메시지 수신
+  - 메시지 파싱
+  - 공통 메시지타입 변환
+  - 디바이스 매칭
+  - Tag 찾기
+
+
+
+** Mqtt Message Process (b)
+
+
+
+** Coap Message Process
+
+
+** 
+ 
+  
