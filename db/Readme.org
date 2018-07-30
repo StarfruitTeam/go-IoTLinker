@@ -1,5 +1,194 @@
 #+TITLE:Readme.org
 #+STARTUP:showall
 
+
+
 * Document
-  - 
+
+DATA_TYPE = ('BIT', 'NUMBER', 'ARRAY', 'STRING', 'JSON')
+
+
+TAG_TYPE = ('GET', 'SET')
+
+
+PROTOCOL = (('MQTT', "mqtt"),
+            ('REST', 'rest'),
+            ('OPC_UA', 'opc_ua'))
+
+
+class User(db.Document):
+    name = db.StringField(max_length=120)
+    email = db.StringField(max_length=200)
+    password = db.StringField(max_length=200)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+
+
+    
+class Role(db.Document):
+    """
+    사용자 Role
+    Manager/Custmoer/Admin
+    사용자 & Tag 관계N:N 관계
+    """
+    name = db.StringField()
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+    
+class Location(db.EmbeddedDocument):
+    name = db.StringField(max_length=200)
+    location_type = db.StringField(max_length=200)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+
+** Tag:
+| colum name   | data type    | Description   |
+|--------------+--------------+---------------|
+| name         | String       | tag name      |
+| topic        | string       | mqtt_topic    |
+| tag_type     | string(enum) | tag type      |
+| subscription | integer      | subscription  |
+| data type    | string(enum) | tag data type |
+| created      | Datetime     | Created Time  |
+|--------------+--------------+---------------|
+
+** Device
+   uuid = db.StringField(max_length=200, default=str(uuid.uuid4()))
+    name = db.StringField(max_length=200)
+    protocol = db.StringField(max_length=200)
+    tags = db.ListField(db.EmbeddedDocumentField(Tag))
+    location = db.EmbeddedDocumentField(Location)
+    timeout = db.IntField(max_value=50000, min_value=0)
+    subscription = db.IntField(max_value=10, min_value=0)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+** Tag Data
+   tag = db.StringField(max_length=200)
+    device_uuid = db.StringField(max_length=200)
+    value = db.StringField(max_length=200)
+    data_type = db.StringField(max_length=50, choices=DATA_TYPE)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+ACTION_TYPE = (('STORE_DATA', 'store data'),
+               ('CREATE_EVENT', 'create event'),
+               ('MESSAGE_ACTUATOR', 'message actuator'))
+
+
+OBJECT_TYPE = ('USER',
+               'DEVICE',
+               'TAG',
+               'RULE',
+               'ACTION',
+               'EVENT',
+               'LOCATION',
+               'SYSTEM')
+   
+
+
+
+
+class ContextAction(db.EmbeddedDocument):
+    name = db.StringField(max_length=200)
+    action_type = db.StringField(max_length=200, choices=ACTION_TYPE)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+    
+class ContextActionData(db.Document):
+    name = db.StringField(max_length=200)
+    action_object_id = db.ObjectIdField()
+    action_object_type = db.StringField(max_length=200, choices=OBJECT_TYPE)
+    action_log = db.StringField(max_length=1000)
+    action_type = db.StringField(max_length=200, choices=ACTION_TYPE)
+    created = db.DateTimeField(default=datetime.datetime.now)
+    
+
+EVENT_TYPE = (('ALARM', 'alarm'),
+              ('WARN', 'warning'),
+              ('NOTICE', 'notice'),
+              ('INFO', 'information'))
+
+
+class ContextEvent(db.EmbeddedDocument):
+    name = db.StringField(max_length=200)
+    event_type = db.StringField(max_length=50, choices=EVENT_TYPE)
+    event_actions = db.EmbeddedDocumentListField(ContextAction)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+    
+class ContextEventData(db.Document):
+    name = db.StringField(max_length=200)
+    event_object_id = db.ObjectIdField()
+    '''
+    데이터에 들어가야할 부분 조회시 해당 데이터에 접근 할수 있다.
+    '''
+    event_object_type = db.StringField(max_length=200, choices=OBJECT_TYPE)
+    # 데이터에 들어가야 할 부분
+    event_type = db.StringField(max_length=50, choices=EVENT_TYPE)
+    event_actions = db.ListField(db.ObjectIdField())
+    #수행된 액션 히스토리 저장
+    event_time = db.DateTimeField(default=datetime.datetime.now)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+
+RULE_TYPE = ('SIMPLE', 'SCHEDULING', 'TIME_SERIES')
+FUNCTION_TYPE = ('SUM', 'MEAN', 'AVG', 'STD')
+
+#SIMPLE:단순 계산
+#룰타입 별로 도큐먼트를 구성한다.
+#룰을 찾을때 해당 여러 도큐먼드에서 검사하여  룰을 찾는다.
+
+"""
+1.Simple: 단일 값에 대한 룰 계산
+2.Scheduling:일정 시간마다 수행하는 룰 검사(Celery 검사)
+지정 테그들의 데이터를 수집하고 컨디션에 따라서 이벤트 및 액션수행 여부 결정
+3.Time Series:일정 시간 데이터의 function 값에 대해서 컨디션을 검사 향후 파형대 파형에 대한 검사도 수행할 계획
+
+"""
+
+RULE_CONDITION = (('=', '<', '>', '>=', '<='))
+
+
+class RuleCondition(db.EmbeddedDocument):
+    condition = db.StringField(choices=RULE_CONDITION)
+    tag = db.StringField(max_length=200)
+    value = db.StringField(max_length=200)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+    
+class TagEmbedded(db.EmbeddedDocument):
+    name = db.StringField(max_length=200)
+    tag_type = db.StringField(max_length=200, choices=TAG_TYPE)
+    device = db.ReferenceField(Device)
+    data_type = db.StringField(max_length=50, choices=DATA_TYPE)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+    
+class ContextSimpleRule(db.Document):
+    name = db.StringField(max_length=200)
+    rule_tags = db.ListField(db.EmbeddedDocumentField(TagEmbedded))
+    rule_condition = db.EmbeddedDocumentField(RuleCondition)
+    actions = db.ListField(db.EmbeddedDocumentField(ContextAction))
+    events = db.ListField(db.EmbeddedDocumentField(ContextEvent))
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+    
+class ContextSchedulingRule(db.Document):
+    name = db.StringField(max_length=200)
+    rule_tags = db.ListField(db.EmbeddedDocumentField(TagEmbedded))
+    rule_conditions = db.ListField(db.EmbeddedDocumentField(RuleCondition))
+    actions = db.ListField(db.EmbeddedDocumentField(ContextAction))
+    events = db.ListField(db.EmbeddedDocumentField(ContextEvent))
+    begin = db.DateTimeField()
+    end = db.DateTimeField()
+    period = db.IntField(max_value=1000, min_value=0)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+    
+class ContextTimeSeriesRule(db.Document):
+    name = db.StringField(max_length=200)
+    rule_tags = db.ListField(db.EmbeddedDocumentField(TagEmbedded))
+    rule_conditions = db.ListField(db.EmbeddedDocumentField(RuleCondition))
+    actions = db.ListField(db.EmbeddedDocumentField(ContextAction))
+    events = db.ListField(db.EmbeddedDocumentField(ContextEvent))
+    between = db.DateTimeField()
+    created = db.DateTimeField(default=datetime.datetime.now)

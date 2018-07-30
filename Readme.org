@@ -31,7 +31,8 @@
 * Go 로 프로그램을 변경하면서 고려할만한 부분
   1. 각 프로그램을 분리하여 시스템의 종석성을 줄인다. 
      메시지 큐나 이벤트 버스를 사용한다면 각 각 프로그램 중앙에 메시지 큐를 이용해서 데이터 공유 및 상호 작용 가능
-  2.  
+  2. Redis 에서 수행하던 Device & Tag 매칭 부분을 직접 몽고디비에서 수행하도록 수정 예정
+  3. 
 
 * Architecture
 #+CAPTION: 
@@ -51,10 +52,10 @@
 | GEO POINT |
 |-----------|
 
-* 디바이스 데이터구조
-** Device:UUID
 
-*** Tag:
+
+
+* 식별자 구조
 | Object   | ID_TYPE     |
 |----------+-------------|
 | Location | LOCATION_ID |
@@ -62,15 +63,88 @@
 | TAG      | TAG_NAME    |
 |----------+-------------|
 
-*** Device
 
-*** Tag
+* Models
 
-*** Location
+DATA_TYPE = ('BIT', 'NUMBER', 'ARRAY', 'STRING', 'JSON')
 
-    TAG Document
-    DEVICE Document
-    LOCATION Document
+
+TAG_TYPE = ('GET', 'SET')
+
+
+PROTOCOL = (('MQTT', "mqtt"),
+            ('REST', 'rest'),
+            ('OPC_UA', 'opc_ua'))
+
+
+class User(db.Document):
+    name = db.StringField(max_length=120)
+    email = db.StringField(max_length=200)
+    password = db.StringField(max_length=200)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+
+
+    
+class Role(db.Document):
+    """
+    사용자 Role
+    Manager/Custmoer/Admin
+    사용자 & Tag 관계N:N 관계
+    """
+    name = db.StringField()
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+    
+class Location(db.EmbeddedDocument):
+    name = db.StringField(max_length=200)
+    location_type = db.StringField(max_length=200)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+
+** Tag:
+| colum name   | data type    | Description   |
+|--------------+--------------+---------------|
+| name         | String       | tag name      |
+| topic        | string       | mqtt_topic    |
+| tag_type     | string(enum) | tag type      |
+| subscription | integer      | subscription  |
+| data type    | string(enum) | tag data type |
+| created      | Datetime     | Created Time  |
+|--------------+--------------+---------------|
+
+** Device
+   uuid = db.StringField(max_length=200, default=str(uuid.uuid4()))
+    name = db.StringField(max_length=200)
+    protocol = db.StringField(max_length=200)
+    tags = db.ListField(db.EmbeddedDocumentField(Tag))
+    location = db.EmbeddedDocumentField(Location)
+    timeout = db.IntField(max_value=50000, min_value=0)
+    subscription = db.IntField(max_value=10, min_value=0)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+** Tag Message
+   tag = db.StringField(max_length=200)
+    device_uuid = db.StringField(max_length=200)
+    value = db.StringField(max_length=200)
+    data_type = db.StringField(max_length=50, choices=DATA_TYPE)
+    created = db.DateTimeField(default=datetime.datetime.now)
+
+ACTION_TYPE = (('STORE_DATA', 'store data'),
+               ('CREATE_EVENT', 'create event'),
+               ('MESSAGE_ACTUATOR', 'message actuator'))
+
+
+OBJECT_TYPE = ('USER',
+               'DEVICE',
+               'TAG',
+               'RULE',
+               'ACTION',
+               'EVENT',
+               'LOCATION',
+               'SYSTEM')
+   
+
 
 
 * 기능 

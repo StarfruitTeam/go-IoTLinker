@@ -13,6 +13,12 @@
 |-------------+-----------+------------------|
 
 
+   tag = db.StringField(max_length=200)
+   device_uuid = db.StringField(max_length=200)
+   value = db.StringField(max_length=200)
+   data_type = db.StringField(max_length=50, choices=DATA_TYPE)
+   created = db.DateTimeField(default=datetime.datetime.now)
+
 * Message Gateway 기능
   - 메시지 수신
   - 메시지 파싱
