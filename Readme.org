@@ -25,10 +25,10 @@
   6. 쉽게  머신 러닝 플랫폼과의 연계한다.(데이터 분석이 용이)
 
 * 주요 Package
-  - Context Package
-  - Net Package
-  - Database Package
-  - Messaging Package
+  - Context Package : Rule 룰을 이용해서 이벤트 검출을 수행하는 패키지 
+  - Net Package : 외부 외부 인터페이스 패키지
+  - Database Package : 데이베이스 관련 패키지
+  - Messaging Package : 메시지 관련 패키지
 
 * 사용 라이브러리 목록
 ** Language
@@ -38,12 +38,15 @@
 ** Messaging System
   - nats :https://www.nats.io/
 
+** 외부라이브러리 
+  - paho: https://www.eclipse.org/paho/clients/golang/
+
 
 * Go 로 프로그램을 변경하면서 고려할만한 부분
   1. 각 프로그램을 분리하여 시스템의 종석성을 줄인다. 
      메시지 큐나 이벤트 버스를 사용한다면 각 각 프로그램 중앙에 메시지 큐를 이용해서 데이터 공유 및 상호 작용 가능
   2. Redis 에서 수행하던 Device & Tag 매칭 부분을 직접 몽고디비에서 수행하도록 수정 예정
-  3. 
+  3. Root/main.go 는 각 App 실행하는 역할 수행
 
 * Architecture
 #+CAPTION: 
