@@ -6,6 +6,10 @@ package main
 	 "fmt"
  )
 
+var f MQTT.MessageHandler = func(client MQTT.Client, msg MQTT.Message) {
+	fmt.Printf("TOPIC:%s\n",msg.Topic())
+}
+
 func main(){
 	topic := flag.String("topic", "", "The topic name to/from which to publish/subscribe")
 	broker := flag.String("broker", "tcp://127.0.0.1:1883", "The broker URI. ex: tcp://10.10.1.1:1883")
@@ -23,12 +27,13 @@ func main(){
 
 
 	flag.Parse()
-	options := mqtt.NewClientOptions()
-	append(options.Servers,"127.0.0.")
-	options.
+	opts := MQTT.NewClientOptions().AddBroker("tcp://127.0.0.1:1883")
 
-	var client = nil
-	client = mqtt.NewClient()
+
+
+
+
+	client := MQTT.NewClient(opts)
 
 
 	fmt.Printf("Hola %s!\n", *topic)
