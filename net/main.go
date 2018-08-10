@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"flag"
 	"os"
+	"context"
 )
 
 /*
@@ -13,7 +14,7 @@ import (
 
 */
 func main() {
-		topic := flag.String("topic", "", "The topic name to/from which to publish/subscribe")
+	topic := flag.String("topic", "", "The topic name to/from which to publish/subscribe")
 	broker := flag.String("broker", "tcp://127.0.0.1:1883", "The broker URI. ex: tcp://10.10.1.1:1883")
 	password := flag.String("password", "", "The password (optional)")
 	user := flag.String("user", "", "The User (optional)")
@@ -24,8 +25,13 @@ func main() {
 	payload := flag.String("message", "", "The message text to publish (default empty)")
 	action := flag.String("action", "", "Action publish or subscribe (required)")
 	store := flag.String("store", ":memory:", "The Store Directory (default use memory store)")
-	
+	nats := flag.String("nats", ":127.0.0.1:4222:", "The NATS Messaging System (default:127.0.0.1:4222)")
+
 	flag.Parse()
+	//1. Recevie MQTT Client
+	//2. create a message connection package.
+
+
 
 
 	
