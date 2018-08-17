@@ -17,7 +17,7 @@
   - IoT Action Management (액션 처리)
   - IoT Data Analytics (데이터 분석)
 
-* 프레임 워크 개발 철학
+* IoTLinker Design Goals
   1. Data Tag 기반 데이터 수집
   2. 고속 데이터 수집 지원 (ms 단위 데이터 처리,수집된 배열 데이터에 대한 처리,이미지 데이터 처리) 
   4. 저사양 디바이스에서도 서버를 구축하여 언제 어디서나 디바이스간 연계가 가능한 마이크로 IoT 서버 구축 한다.  (라즈베리파이)

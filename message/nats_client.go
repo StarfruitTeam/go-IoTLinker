@@ -14,4 +14,11 @@ type nats_client struct {
 }
 
 
-func Pub()
+func (nats_client) Publish(ClientId string,msg string):boolean{
+
+}
+
+
+func (nats_clinet) Subscribe(ClientId string,tag string):boolean{
+
+}
