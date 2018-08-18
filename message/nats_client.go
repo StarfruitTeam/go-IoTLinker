@@ -14,6 +14,10 @@ type nats_client struct {
 }
 
 
+func (nats_client) Connec(token string):boolean{
+
+}
+
 func (nats_client) Publish(ClientId string,msg string):boolean{
 
 }
