@@ -13,3 +13,18 @@ type Client interface {
 
 	
 }
+/*
+    """
+    recevie mqtt messag
+    """
+    message = dict(
+        topic=message.topic,
+        data=message.payload.decode(),
+        datetime=datetime.now()
+    )
+    """
+    topic 의 정보를 이용해서 tag 정보를 정한다.
+    """
+    mqtt_process.process(message)
+
+*/
