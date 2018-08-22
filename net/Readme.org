@@ -1,0 +1,12 @@
+
+* 
+* 메시지 구조 
+| Colum     | ID_TYPE  |
+|-----------+----------|
+| Device_ID | UUID     |
+| TAG1      | VALUE    |
+| TAG2      | VALUE    |
+| CREATED   | DATETIME |
+|           |          |
+|-----------+----------|
+ 
