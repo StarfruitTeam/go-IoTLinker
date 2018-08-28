@@ -5,6 +5,8 @@ import (
 	"flag"
 	"os"
 	"context"
+	"../message/message"
+	""
 )
 
 /*

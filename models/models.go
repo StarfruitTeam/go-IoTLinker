@@ -1,9 +1,4 @@
 
-//Example
-type Person struct {
-        Name string
-        Phone string
-}
 
 type Tag struct {
 	name string
@@ -15,12 +10,12 @@ type Tag struct {
 }
 
 type Device struct {
-	uuid string
+	id string
 	name string
 	protocol string
 	tags []string
 	location string
-	timeout
+	timeout integer
 	subscription integer
 	data_type string
 	created datetime

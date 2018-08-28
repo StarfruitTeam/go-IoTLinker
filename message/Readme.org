@@ -1,15 +1,9 @@
 #+TITLE:Readme.org
 #+STARTUP:showall
 
-
-
-** Mqtt Message Process (b)
-
-
-
-** Coap Message Process
-
-
-**
+* 공용 메시지 구조 
+  - DeviceID: uuid
+  - TAG: DevcieProperty
+  - Value: interface
 
 
