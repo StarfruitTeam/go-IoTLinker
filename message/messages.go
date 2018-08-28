@@ -5,11 +5,14 @@ package nats
 
 type Tag interface {
 	getName() string
+	setName(AName string)
+	getVaue() {}
+	setValue(Value {})
 }
 
 
 type message interface {
-	MsgTopic() string
-	MsgData() string
-	Tags() []string
+	getDeviceId() string
+	setDeviceId(deviceId string)
+	Tags() []Tag
 }
