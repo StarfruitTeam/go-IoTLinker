@@ -1,5 +1,4 @@
-
-* 
+#+STARTUP:showall
 * 메시지 구조 
 | Colum     | ID_TYPE  |
 |-----------+----------|

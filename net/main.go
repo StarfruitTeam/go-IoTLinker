@@ -29,9 +29,16 @@ func main() {
 	store := flag.String("store", ":memory:", "The Store Directory (default use memory store)")
 	nats := flag.String("nats", ":127.0.0.1:4222:", "The NATS Messaging System (default:127.0.0.1:4222)")
 
-	//mongoDB 연결 정보를 
+	
 
 	flag.Parse()
+
+
+	
+
+	
+
+	
 	//1. 메시지를 받는다 
 	//2. topic 정보를 조회 하여 디바이스를 찾는다.
 	//3. 공용 메시지 구조로 변환한다.
