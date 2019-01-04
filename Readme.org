@@ -156,7 +156,7 @@
 
 
 ** 기본 모델 구성
-*** DONE User
+*** User
     - 사용자 수집 정보(메일 )
     - 등급(admin,manager,customer)
 
@@ -167,7 +167,7 @@
     - 향후를 위하여 구현을 미룸
 
 *** DONE Tag
-    + Tag 변경 이벤트를 감지하여 블록커에 등록을 해제 하거나 등록 한다.
+    + Tag 변경 이벤트를 감지하여 Bloker에 등록을 해제 하거나 등록 한다.
     + Input/OutPut tag 지정
     + 스카다와 유사하게 구성 하자(기존 PLC 데이터에 적합 하도록 구성)
     + @listens_for(Image, 'after_delete') 참고
