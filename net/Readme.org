@@ -1,5 +1,5 @@
 #+STARTUP:showall
-* 메시지 구조 
+*  
 | Colum     | ID_TYPE  |
 |-----------+----------|
 | Device_ID | UUID     |
@@ -8,4 +8,9 @@
 | CREATED   | DATETIME |
 |           |          |
 |-----------+----------|
+* Goals
+1. MiddleWare (MQTT,SOCKET,RESTAPI,...);
+2. Use(Middleware)
+3. Setting (사용할 미들웨어 포트 등을 지정 , 전송할 Queue 지정)
+4. 실행을 Cli로 가능하도록 개발 (내부 로직은 분리해서 작성)
  
