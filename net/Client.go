@@ -9,7 +9,7 @@ package net
 type MessageConnector interface {
 	Connect(id,url string) boolean	// 메시징 시스템에 연결 한다. 
 	PubMsg(msg string) boolean // 발행 기능 
-	SubMsg(*topic,byte(qos),queue chan<- {}) //구독 기능 조건: 토픽을 지정한다.	
+	SubMsg(*topic,byte(qos),queue chan <- {}) //구독 기능 조건: 토픽을 지정한다.
 }
 /*
     """
