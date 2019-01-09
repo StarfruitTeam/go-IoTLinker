@@ -1,8 +1,0 @@
-#+TITLE:Readme.org
-#+STARTUP:showall
-
-* GO MQTT Client 만들기
-  https://github.com/eclipse/paho.mqtt.golang
-
-** 메시지 테스트를 위한 클라이언트
-   

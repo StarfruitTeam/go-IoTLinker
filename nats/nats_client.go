@@ -2,8 +2,8 @@ package nats
 
 import (
 	"github.com/nats-io/go-nats"
-	"fmt"
-	"log"
+	_ "fmt"
+	_ "log"
 )
 /*
 목적
@@ -19,15 +19,15 @@ type nats_client struct {
 }
 
 
-func (nats_client) Connect(token,urls string):boolean{
+func (nats_client) Connect(token,urls string) {
+}:boolean{
 	//nats 서버와 연결합니다.
 	//연결에 성공하면 Connected 를 변경합니다.
 	nc,err := nats.Connect(*urls)
 	if err != nil {
 		log.Fatalf("Can't connect: %v\n",err)
 	}
-	NatsClient = nc; 
-	
+	NatsClient = nc;
 }
 
 func (nats_client) Publish(ClientId,topic,msg string):boolean{

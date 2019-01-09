@@ -2,7 +2,7 @@
 *  
 | Colum     | ID_TYPE  |
 |-----------+----------|
-| Device_ID | UUID     |
+| Device_ID | UUID     | // Basic
 | TAG1      | VALUE    |
 | TAG2      | VALUE    |
 | CREATED   | DATETIME |
