@@ -1,4 +1,4 @@
-package message_gateway
+package NetService
 
 import (
 	"fmt"
@@ -12,7 +12,8 @@ import (
 /*
  Message Gateway
 1. MQTT Pub/Sub 기능 추가 
-2. nats 연결 기능 추가 
+2. nats 연결 기능 추가
+3. Implement Server
 
 */
 func main() {
