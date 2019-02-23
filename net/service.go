@@ -1,4 +1,4 @@
-dpackage NetService
+package NetService
 
 import "../nats/nats_client"
 import "./receiver"
